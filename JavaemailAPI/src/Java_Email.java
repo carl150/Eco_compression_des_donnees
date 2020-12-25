@@ -6,6 +6,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Authenticator;
@@ -54,7 +55,7 @@ public class Java_Email
 		//
 		final String myAccountEmail="guatrobin@gmail.com";
 
-		final String password="xxxxxxxxxxxx";
+		final String password="elfried147258369";
 
 		//URLName rep_Serveur = new URLName("pop3://guatrobin@pop.gmail.com/Inbox");
 		Session session= Session.getInstance(properties, new Authenticator() {
@@ -173,10 +174,31 @@ public class Java_Email
 		Folder emailFolder = store.getFolder("INBOX");
 		emailFolder.open(Folder.READ_ONLY);
 		Message [] messages=emailFolder.getMessages();
-		for (int i=0;i<messages.length;i++) {
-			LocalDate date=convertToLocalDate(messages[i].getReceivedDate());
-			age.add(i,ChronoUnit.MONTHS.between(date,LocalDate.now()));
-		}
+	for (Message i:messages) {
+//			LocalDate date=convertToLocalDate(messages[i].getReceivedDate());
+//			age.add(i,ChronoUnit.MONTHS.between(date,LocalDate.now()));
+//			
+			System.out.println(i.getReceivedDate());
+	}
 		return age;
+	}
+
+	public  static ArrayList frequence(ArrayList age) {
+		ArrayList frequence= new ArrayList();
+		ArrayList distinct=new ArrayList();
+		for (int i=0;i<age.size();i++) {
+			if (!distinct.contains(age.get(i))) {
+                distinct.add(age.get(i));
+                
+            }
+		}
+		for (int j=0;j<distinct.size();j++) {
+			long coordonnees[]=new long[2];
+			coordonnees[0]=(long) distinct.get(j);
+			coordonnees[1]=Collections.frequency(age, coordonnees[0]);
+			frequence.add(coordonnees);
+		}
+		
+		return frequence;
 	}
 }

@@ -18,9 +18,9 @@ import javax.swing.UIManager;
 public class Interface_gestion_mail extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField email;
+	public static JTextField email;
 	private JTextArea infos;
-	private JPasswordField password;
+	public static JPasswordField password;
 
 	/**
 	 * Launch the application.
@@ -50,6 +50,7 @@ public class Interface_gestion_mail extends JFrame {
 		contentPane.setLayout(null);
 		
 		JTextPane txtpnEmail = new JTextPane();
+		txtpnEmail.setEditable(false);
 		txtpnEmail.setBackground(UIManager.getColor("control"));
 		txtpnEmail.setText("Email");
 		txtpnEmail.setBounds(28, 37, 44, 20);
@@ -62,13 +63,14 @@ public class Interface_gestion_mail extends JFrame {
 		email.setColumns(10);
 		
 		JTextPane txtpnMotDePasse = new JTextPane();
+		txtpnMotDePasse.setEditable(false);
 		txtpnMotDePasse.setBackground(UIManager.getColor("control"));
 		txtpnMotDePasse.setText("Mot de passe");
 		txtpnMotDePasse.setBounds(28, 96, 85, 20);
 		contentPane.add(txtpnMotDePasse);
 		
 		infos = new JTextArea();
-		infos.setBounds(28, 188, 669, 214);
+		infos.setBounds(28, 188, 669, 192);
 		contentPane.add(infos);
 		
 		password = new JPasswordField();
@@ -99,13 +101,15 @@ public class Interface_gestion_mail extends JFrame {
 		btnInfos.setBounds(275, 154, 89, 23);
 		contentPane.add(btnInfos);
 		
-		JButton entropie = new JButton("Entropie");
-		entropie.setBounds(275, 424, 89, 23);
-		contentPane.add(entropie);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(28, 497, 669, 136);
-		contentPane.add(textArea);
+		JButton Histogramme = new JButton("Histogramme");
+		Histogramme.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Histogramm frame1 = new Histogramm();
+				frame1.setVisible(true);
+			}
+		});
+		Histogramme.setBounds(290, 391, 115, 33);
+		contentPane.add(Histogramme);
 		
 		
 		

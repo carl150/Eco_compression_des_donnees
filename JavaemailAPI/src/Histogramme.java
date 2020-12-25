@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -24,7 +25,7 @@ public class Histogramme extends JFrame
    private int max;
 
    /** Couleurs de barres de l'histogramme. */
-   private Color[] couleurs;
+   private Color couleurs;
 
    /** Décalage en X du graphique par rapport à la gauche de la fenêtre. */
    private static final int DEC_X = 40;
@@ -58,29 +59,37 @@ public class Histogramme extends JFrame
       super("Histogramme");
 
       // Initialisation des valeurs.
-      this.valeurs = new int[6];
-      this.valeurs[0] = 12;
-      this.valeurs[1] = 10;
-      this.valeurs[2] = 17;
-      this.valeurs[3] = 5;
-      this.valeurs[4] = 13;
-      this.valeurs[5] = 8;
-      this.max = 20;
+      
+//      this.valeurs = new int[6];
+//      this.valeurs[0] = 12;
+//      this.valeurs[1] = 10;
+//      this.valeurs[2] = 17;
+//      this.valeurs[3] = 5;
+//      this.valeurs[4] = 13;
+//      this.valeurs[5] = 8;
+//      this.max = 20;
 
       // Initialisation des couleurs.
-      this.couleurs = new Color[6];
-      this.couleurs[0] = Color.RED;
-      this.couleurs[1] = Color.GREEN;
-      this.couleurs[2] = Color.BLUE;
-      this.couleurs[3] = Color.YELLOW;
-      this.couleurs[4] = Color.MAGENTA;
-      this.couleurs[5] = new Color(255, 102, 0);
+//      this.couleurs = new Color[6];
+//      this.couleurs[0] = Color.RED;
+//      this.couleurs[1] = Color.GREEN;
+//      this.couleurs[2] = Color.BLUE;
+//      this.couleurs[3] = Color.YELLOW;
+//      this.couleurs[4] = Color.MAGENTA;
+//      this.couleurs[5] = new Color(255, 102, 0);
 
       // Propriétés de la fenêtre.
       setLocation(50, 50);
       setSize(350, 300);
       setVisible(true);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+   }
+   public static void initialisation(ArrayList age,Histogramme H) {
+	   H.valeurs=new int[age.size()];
+	   for (int i=0;i<age.size();i++) {
+		  H.valeurs[i]=(Integer) age.get(i);
+	   }
+	   H.couleurs=Color.red;
    }
 
 
@@ -102,7 +111,7 @@ public class Histogramme extends JFrame
          y = getHeight() - DEC_Y - this.valeurs[i] * INCR;
          largeur = LG_B;
          hauteur = this.valeurs[i] * INCR;
-         g.setColor(this.couleurs[i]);
+         g.setColor(this.couleurs);
          g.fillRect(x, y, largeur, hauteur);
          
          // Valeur.
@@ -139,6 +148,11 @@ public class Histogramme extends JFrame
     */
    public static void main(String[] args)
    {
-      new Histogramme();
+      ArrayList l=new ArrayList();
+      Histogramme H=new Histogramme();
+      l.add(2);
+      l.add(15);
+      l.add(7);
+      initialisation(l, H);
    }
 }
