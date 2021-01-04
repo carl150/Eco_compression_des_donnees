@@ -53,7 +53,7 @@ public class Histogramm extends JFrame {
 	 * Create the frame.
 	 */
 	public Histogramm() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 1200, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -63,10 +63,6 @@ public class Histogramm extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		
-		JComboBox Choix = new JComboBox();
-		Choix.setBounds(164, 517, 89, 22);
-		panel.add(Choix);
 
 		JButton btnShow = new JButton("    Show ");
 		JPanel pnhist = new JPanel();
@@ -88,7 +84,7 @@ public class Histogramm extends JFrame {
 				Collections.sort(age,Collections.reverseOrder());
 				ArrayList<long[]> f=Java_Email.frequence(age);
 				for(int i=0;i<f.size();i++) {
-					dcd.setValue(f.get(i)[1], "Nombre de mails",f.get(i)[0]+" mois");
+					dcd.setValue(f.get(i)[1], "Nombre de mails",f.get(i)[0]+"");
 				}
 				JFreeChart Jchart=ChartFactory.createBarChart3D("histogramme des ages", "age des mails", "nombre de mails",dcd, PlotOrientation.VERTICAL, true,true, false);
 				CategoryPlot plot=Jchart.getCategoryPlot();

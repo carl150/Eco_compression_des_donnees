@@ -57,7 +57,7 @@ public class Interface_gestion_mail extends JFrame {
 		contentPane.add(txtpnEmail);
 		
 		email = new JTextField();
-		email.setBounds(82, 37, 282, 25);
+		email.setBounds(123, 37, 282, 25);
 		email.setName("email");
 		contentPane.add(email);
 		email.setColumns(10);
@@ -70,11 +70,12 @@ public class Interface_gestion_mail extends JFrame {
 		contentPane.add(txtpnMotDePasse);
 		
 		infos = new JTextArea();
+		infos.setEditable(false);
 		infos.setBounds(28, 188, 669, 192);
 		contentPane.add(infos);
 		
 		password = new JPasswordField();
-		password.setBounds(123, 96, 256, 25);
+		password.setBounds(123, 96, 282, 25);
 		contentPane.add(password);
 		
 		
@@ -98,7 +99,7 @@ public class Interface_gestion_mail extends JFrame {
 				}//affiche les informations importantes de la boite mail
 			}
 		});
-		btnInfos.setBounds(275, 154, 89, 23);
+		btnInfos.setBounds(290, 144, 89, 33);
 		contentPane.add(btnInfos);
 		
 		JButton Histogramme = new JButton("Histogramme");
@@ -110,6 +111,16 @@ public class Interface_gestion_mail extends JFrame {
 		});
 		Histogramme.setBounds(290, 391, 115, 33);
 		contentPane.add(Histogramme);
+		
+		JButton btnOptions = new JButton("Options");
+		btnOptions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Options frame = new Options();
+				frame.setVisible(true);
+			}
+		});
+		btnOptions.setBounds(290, 457, 115, 33);
+		contentPane.add(btnOptions);
 		
 		
 		

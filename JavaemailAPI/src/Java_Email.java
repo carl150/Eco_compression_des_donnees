@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Properties;
 import javax.mail.Authenticator;
+import javax.mail.FetchProfile;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -26,6 +27,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.FlagTerm;
 
 import com.sun.mail.imap.IMAPStore;
+import com.sun.mail.imap.IMAPFolder.FetchProfileItem;
 
 import javax.mail.Quota;
 
@@ -164,6 +166,8 @@ public class Java_Email
 	public static ArrayList stats(String host,String user,String password) throws MessagingException {
 		Properties properties = new Properties();
 		properties.put("mail.store.protocol", "imaps");
+		properties.put("mail.imap.partialfetch",false);
+		properties.put("mail.imap.fetchsize",10000000);
 
 		ArrayList age=new ArrayList();
 
@@ -174,12 +178,20 @@ public class Java_Email
 		Folder emailFolder = store.getFolder("INBOX");
 		emailFolder.open(Folder.READ_ONLY);
 		Message [] messages=emailFolder.getMessages();
-	for (Message i:messages) {
-//			LocalDate date=convertToLocalDate(messages[i].getReceivedDate());
-//			age.add(i,ChronoUnit.MONTHS.between(date,LocalDate.now()));
-//			
-			System.out.println(i.getReceivedDate());
-	}
+
+		FetchProfile fp = new FetchProfile();
+		fp.add(FetchProfile.Item.ENVELOPE);
+		fp.add("X-mailer");
+		emailFolder.fetch(messages, fp); // Load the profile of the messages in 1 fetch.
+		System.out.println("pret a afficher les dates");
+
+		for (int i=0;i<messages.length;i++) {
+			LocalDate date=convertToLocalDate(messages[i].getReceivedDate());
+			age.add(i,ChronoUnit.MONTHS.between(date,LocalDate.now()));
+
+			System.out.println(ChronoUnit.MONTHS.between(date,LocalDate.now())/2);
+		}
+
 		return age;
 	}
 
@@ -188,9 +200,9 @@ public class Java_Email
 		ArrayList distinct=new ArrayList();
 		for (int i=0;i<age.size();i++) {
 			if (!distinct.contains(age.get(i))) {
-                distinct.add(age.get(i));
-                
-            }
+				distinct.add(age.get(i));
+
+			}
 		}
 		for (int j=0;j<distinct.size();j++) {
 			long coordonnees[]=new long[2];
@@ -198,7 +210,52 @@ public class Java_Email
 			coordonnees[1]=Collections.frequency(age, coordonnees[0]);
 			frequence.add(coordonnees);
 		}
-		
+
 		return frequence;
+	}
+	public static void options(String host,String user,String password,int time,boolean spam) throws MessagingException {
+		Properties properties = new Properties();
+		properties.put("mail.store.protocol", "imaps");
+		properties.put("mail.imap.partialfetch",false);
+		properties.put("mail.imap.fetchsize",100000000);
+		Session emailSession = Session.getDefaultInstance(properties);
+		Store store = emailSession.getStore("imaps");
+		store.connect(host, user, password);
+
+		Folder emailFolder = store.getFolder("INBOX");
+		Folder spamFolder=store.getFolder("[Gmail]/Spam");
+		emailFolder.open(Folder.READ_WRITE);
+		spamFolder.open(Folder.READ_WRITE);
+		Message [] messages=emailFolder.getMessages();
+		Message [] msgs=spamFolder.getMessages();
+
+		FetchProfile fp = new FetchProfile();
+		fp.add(FetchProfile.Item.ENVELOPE);
+		fp.add(FetchProfile.Item.FLAGS);
+		fp.add("X-mailer");
+		emailFolder.fetch(messages, fp); // Load the profile of the messages in 1 fetch.
+		spamFolder.fetch(msgs, fp);
+		System.out.println("pret");
+
+		for (int i=0;i<messages.length;i++) {
+			LocalDate date=convertToLocalDate(messages[i].getReceivedDate());
+			if(ChronoUnit.MONTHS.between(date,LocalDate.now())>=time) {
+				messages[i].setFlag(Flags.Flag.DELETED, true);
+				//messages[i].saveChanges();
+				System.out.println("ok");
+			}
+			else {
+				break;
+			}
+
+		}
+		if(spam==true) {
+			for(Message message: msgs) {
+				message.setFlag(Flags.Flag.SEEN, true);
+			}
+		}
+
+		emailFolder.close(true);
+		spamFolder.close(true);
 	}
 }
