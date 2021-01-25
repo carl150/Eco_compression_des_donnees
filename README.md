@@ -1,1 +1,0 @@
-# Eco_compression_des_donnees
