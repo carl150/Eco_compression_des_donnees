@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/guehi/Documents/PFE/jfreechart-1.0.19/jfreechart-1.0.19/jfreechart-1.0.19-demo.jar"/>
+	<classpathentry kind="lib" path="C:/Users/guehi/Documents/PFE/Eco_compression_des_donnees/JavaemailAPI/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/guehi/Documents/PFE/Eco_compression_des_donnees/JavaemailAPI/javax.mail.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
